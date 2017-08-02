@@ -1,1 +1,48 @@
-{}
+{
+  "passengers": [
+    {
+      "id": 1,
+      "fullname": "Javierini",
+      "checkedIn": true,
+      "checkInDate": 1499855928616,
+      "children": [
+        {
+          "name": "César",
+          "age": 10
+        },
+        {
+          "name": "Lucía",
+          "age": 8
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "fullname": "Pepe",
+      "checkedIn": false,
+      "children": null
+    },
+    {
+      "id": 3,
+      "fullname": "Luis",
+      "checkedIn": false,
+      "children": [
+        {
+          "name": "César",
+          "age": 10
+        },
+        {
+          "name": "Lucía",
+          "age": 8
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "fullname": "Carlos",
+      "checkedIn": true,
+      "checkInDate": 1499855978616,
+      "children": null
+    }
+  ]
+}

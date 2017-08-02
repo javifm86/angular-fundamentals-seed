@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { PassengerDashboardService } from '../../passenger-dashboard.service';
+
 import { Passenger } from '../../models/passenger.interface';
 
 @Component({
@@ -10,6 +12,9 @@ import { Passenger } from '../../models/passenger.interface';
             <passenger-count
                 [items]="passengers">
             </passenger-count>
+            <div *ngFor="let passenger of passengers;">
+            {{ passenger.fullname }}
+            </div>
             <passenger-detail
                 *ngFor="let passenger of passengers;"
                 [detail]="passenger"
@@ -22,45 +27,43 @@ import { Passenger } from '../../models/passenger.interface';
 })
 export class PassengerDashboardComponent implements OnInit {
     passengers: Passenger[];
-    constructor() { }
+    constructor(private passengerService: PassengerDashboardService) {
+        // this.passengerService = PassengerDashboardService;
+    }
     ngOnInit() {
         console.log('ngOnInit');
-        this.passengers = [
-            {
-                id: 1,
-                fullname: 'Javier',
-                checkedIn: true,
-                checkInDate: 1499855928616,
-                children: [{ name: "César", age: 10 }, { name: "Lucía", age: 8 }]
-            },
-            {
-                id: 2,
-                fullname: 'Pepe',
-                checkedIn: false,
-                children: null
-            },
-            {
-                id: 3,
-                fullname: 'Luis',
-                checkedIn: false,
-                children: [{ name: "César", age: 10 }, { name: "Lucía", age: 8 }]
-            },
-            {
-                id: 4,
-                fullname: 'Carlos',
-                checkedIn: true,
-                checkInDate: 1499855978616,
-                children: null
-            },
-        ];
+        this.passengerService
+            .getPassengers()
+            .subscribe((data: Passenger[]) => {
+                this.passengers = data;
+            });
     }
 
-    handleRemove(event){
-        console.log(event);
+    handleRemove(event: Passenger) {
+
+        this.passengerService
+            .removePassenger(event)
+            .subscribe((data: Passenger) => {
+                this.passengers = this.passengers.filter((passenger: Passenger) => {
+                    return passenger.id !== event.id;
+                });
+            });
     }
 
-    handleEdit(event){
-        console.log(event);
+    handleEdit(event: Passenger) {
+
+        this.passengerService
+            .updatePassenger(event)
+            .subscribe((data: Passenger) => {
+
+                this.passengers = this.passengers.map((passenger: Passenger) => {
+                    if (passenger.id === event.id) {
+                        passenger = Object.assign({}, passenger, event);
+                    }
+                    return passenger;
+                });
+
+            });
     }
 
 }
