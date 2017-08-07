@@ -34,15 +34,19 @@ export class PassengerDashboardComponent implements OnInit {
         console.log('ngOnInit');
         this.passengerService
             .getPassengers()
-            .subscribe((data: Passenger[]) => {
+            // .then((data: Passenger[]) => { // Promise version
+            .subscribe(
+            (data: Passenger[]) => {
                 this.passengers = data;
-            });
+            },
+            (error: any) => console.log('Error'));
     }
 
     handleRemove(event: Passenger) {
 
         this.passengerService
             .removePassenger(event)
+            // .then((data: Passenger) => { // Promise version
             .subscribe((data: Passenger) => {
                 this.passengers = this.passengers.filter((passenger: Passenger) => {
                     return passenger.id !== event.id;
@@ -54,6 +58,7 @@ export class PassengerDashboardComponent implements OnInit {
 
         this.passengerService
             .updatePassenger(event)
+            // .then((data: Passenger) => { // Promise version
             .subscribe((data: Passenger) => {
 
                 this.passengers = this.passengers.map((passenger: Passenger) => {
